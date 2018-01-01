@@ -184,3 +184,51 @@ double slotMachine::calculatePayout()//如果有用到3個一樣的數字，會得到金額
 		return 0;
 	}
 }
+
+bool slotMachine::pullHandle(void)//使用拉霸
+{
+	if (pullTimes > 0)//有剩餘次數，才可以使用
+	{
+		spinWheel(wheelA);
+		spinWheel(wheelB);
+		spinWheel(wheelC);
+
+		moneyPaid -= gameCost;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void slotMachine::spinWheel(int &theWheel)//使用Random隨機取1~7
+{
+	theWheel = Random(1, 7);
+}
+
+int slotMachine::Random(int lowerLimit, int upperLimit)//取亂數
+{
+	return 1 + rand() % (upperLimit - lowerLimit + 1);
+}
+
+void slotMachine::insertCoin(double amount)//計算投進金額用的
+{
+	moneyPaid += amount;
+	moneyInMachine += amount;
+	moneyInPeople -= amount;
+}
+
+void slotMachine::displaySpinResults()//顯示拉霸數字
+{
+	cout << "[" << wheelA << "] "
+		<< "[" << wheelB << "] "
+		<< "[" << wheelC << "] \n\n";
+}
+
+void slotMachine::displayStatus()//檢視狀態
+{
+	cout << "\nMoney in Peoele $" << moneyInPeople << endl;
+	cout << "Money in Machine $" << moneyInMachine << endl;
+	cout << "Pulls Left: " << pullTimes << endl << endl;
+}
